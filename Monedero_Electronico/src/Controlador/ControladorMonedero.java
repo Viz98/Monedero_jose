@@ -31,8 +31,9 @@ public class ControladorMonedero implements ActionListener, MouseListener{
     private IF_Clientes Cl;
     private IF_HistorialCliente HC;
     private IF_Premios P;
+    public static String [] empleado;
     
-    public ControladorMonedero(Desktop_Monedero M, ModeloMonedero Mo, IF_Abono A, IF_Cargo C, IF_Clientes CL, IF_HistorialCliente HC, IF_Premios P)
+    public ControladorMonedero(Desktop_Monedero M, ModeloMonedero Mo, IF_Abono A, IF_Cargo C, IF_Clientes CL, IF_HistorialCliente HC, IF_Premios P, String [] empleado)
     {
         this.M=M;
         this.Mo=Mo;
@@ -41,6 +42,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         this.Cl=CL;
         this.HC=HC;
         this.P=P;
+        this.empleado = empleado;
         
         this.M.Desktop_Clientes_Btn.addActionListener(this);
         this.M.Desktop_Cargo_Btn.addActionListener(this);
@@ -116,8 +118,10 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         if(e.getSource() == M.Desktop_Clientes_Btn)
         {   
             this.Cl.toFront();
+            System.out.println("El nombre del empleado: " + empleado[2]);
+            System.out.println("El id del empleado: " + empleado[0]);
+            System.out.println("La sucursal donde trabaja es: " + empleado[1]);
             Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
-
         }
             if(e.getSource() == Cl.IF_Insertar_Clientes_Btn)
             {

@@ -63,7 +63,7 @@ public class ControlLogin implements ActionListener
                     IF_HistorialCliente HC = new IF_HistorialCliente();
                     IF_Premios P = new IF_Premios();
                     ModeloMonedero modeloMonedero = new ModeloMonedero();
-                    ControladorMonedero ctr = new ControladorMonedero(M,modeloMonedero, A, C, Cl, HC, P);
+                    ControladorMonedero ctr = new ControladorMonedero(M,modeloMonedero, A, C, Cl, HC, P, modelo.jalarIdEmpleado(usu, contra));
                     ctr.iniciarVista();
                     break;
                 case 2:
