@@ -79,6 +79,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         this.P.IF_Premios_Borrar_Btn.addActionListener(this);
         this.P.IF_Premios_Insertar_Btn.addActionListener(this);
         this.P.IF_Premios_Limpiar_Btn.addActionListener(this);
+        this.P.IF_Table_Premios_table.addMouseListener(this);
     }
     public void iniciarVista(){
         this.M.setTitle("Monedero viz´98");
@@ -103,6 +104,12 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         this.Cl.IF_Cliente_Telefono_Txt.setText("");
         this.Cl.IF_Cliente_idCliente_Txt.setText("");
     }
+    public void borrarCamposPremios()
+    {
+        this.P.IF_Premios_Nombre_Txt1.setText("");
+        this.P.IF_Premios_Puntos_Txt.setText("");
+        this.P.IF_Premios_idPremio_Txt.setText("");
+    }
     @Override
     public void actionPerformed(ActionEvent e)
     {   
@@ -123,7 +130,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
             }
             if(e.getSource() == Cl.IF_Actualizar_Clientes_Btn)
             {
-                if(Mo.actualizarCliente(Cl.IF_Cliente_Nombre_Txt.getText(), Cl.IF_Cliente_Apellidos_Txt.getText(), Integer.parseInt(Cl.IF_Cliente_Puntos_Txt.getText()), Cl.IF_Cliente_Email_Txt.getText(), Cl.IF_Cliente_Direccion_Txt.getText(), Cl.IF_Cliente_Sexo_Txt.getText(),Cl.IF_Cliente_Telefono_Txt.getText()));
+                if(Mo.actualizarCliente(Cl.IF_Cliente_Nombre_Txt.getText(), Cl.IF_Cliente_Apellidos_Txt.getText(), Integer.parseInt(Cl.IF_Cliente_Puntos_Txt.getText()), Cl.IF_Cliente_Email_Txt.getText(), Cl.IF_Cliente_Direccion_Txt.getText(), Cl.IF_Cliente_Sexo_Txt.getText(),Cl.IF_Cliente_Telefono_Txt.getText(), Integer.parseInt(Cl.IF_Cliente_idCliente_Txt.getText())));
                 {
                     JOptionPane.showMessageDialog(null, "Resgistro actualizado exitosamente");
                     Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
@@ -154,12 +161,37 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         if(e.getSource() == M.Desktop_Premios_Btn)
         {
             this.P.toFront();
+            P.IF_Table_Premios_table.setModel(Mo.mostrarPremios());
         }
             if(e.getSource() == P.IF_Premios_Insertar_Btn)
             {
                 if(Mo.insertarPremios(P.IF_Premios_Nombre_Txt1.getText(), Integer.parseInt(P.IF_Premios_Puntos_Txt.getText())))
                 {
                     JOptionPane.showMessageDialog(null, "Resgistro insertado exitosamente");
+                    P.IF_Table_Premios_table.setModel(Mo.mostrarPremios());
+                    this.borrarCamposPremios();
+                }
+            }
+            if(e.getSource() == P.IF_Premios_Limpiar_Btn)
+            {
+                this.borrarCamposPremios();
+            }
+            if(e.getSource() == P.IF_Premios_Borrar_Btn)
+            {
+                if(Mo.borrarPremio(P.IF_Premios_idPremio_Txt.getText()))
+                {
+                    JOptionPane.showMessageDialog(null, "Resgistro eliminado exitosamente");
+                    P.IF_Table_Premios_table.setModel(Mo.mostrarPremios());
+                    this.borrarCamposPremios();
+                }
+            }
+            if(e.getSource() == P.IF_Premios_Actualizar_Btn)
+            {
+                if(Mo.actualizarPremio(P.IF_Premios_Nombre_Txt1.getText(), Integer.parseInt(P.IF_Premios_Puntos_Txt.getText()), Integer.parseInt(P.IF_Premios_idPremio_Txt.getText())));
+                {
+                    JOptionPane.showMessageDialog(null, "Resgistro actualizado exitosamente");
+                    P.IF_Table_Premios_table.setModel(Mo.mostrarPremios());
+                    this.borrarCamposPremios();                    
                 }
             }
         if(e.getSource() == M.Desktop_Historial_Btn)
@@ -186,6 +218,13 @@ public class ControladorMonedero implements ActionListener, MouseListener{
             Cl.IF_Cliente_Direccion_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 5).toString());
             Cl.IF_Cliente_Sexo_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 6).toString());
             Cl.IF_Cliente_Telefono_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 7).toString());
+        }
+        if(me.getSource() == P.IF_Table_Premios_table)
+        {
+            int f = P.IF_Table_Premios_table.rowAtPoint(me.getPoint());
+            P.IF_Premios_idPremio_Txt.setText(P.IF_Table_Premios_table.getValueAt(f, 0).toString());
+            P.IF_Premios_Nombre_Txt1.setText(P.IF_Table_Premios_table.getValueAt(f, 1).toString());
+            P.IF_Premios_Puntos_Txt.setText(P.IF_Table_Premios_table.getValueAt(f, 2).toString());
         }
     }
 

@@ -35,12 +35,12 @@ public class ModeloMonedero {
             return false;
         }
     }
-    public boolean actualizarCliente(String nombre, String apellidos, int puntos, String email, String dire, String sexo, String tele)
+    public boolean actualizarCliente(String nombre, String apellidos, int puntos, String email, String dire, String sexo, String tele, int idCliente)
     {
         try{
             Connection con = conexion.abrirConexion();
             Statement s = con.createStatement();
-            int resultado = s.executeUpdate("update cliente set Nombre = '" + nombre + "', Apellidos = '" + apellidos + "', Puntos = '" + puntos + "', Email = '" + email + "', Direccion = '" + dire + "', Telefono = '" + tele + "';");
+            int resultado = s.executeUpdate("update cliente set Nombre = '" + nombre + "', Apellidos = '" + apellidos + "', Puntos = '" + puntos + "', Email = '" + email + "', Direccion = '" + dire + "', Telefono = '" + tele + "' where idCliente = '" + idCliente + "';");
             conexion.cerrarConexion(con);
             return true;
         }
@@ -116,7 +116,79 @@ public class ModeloMonedero {
         {
             Connection con = conexion.abrirConexion();
             Statement s = con.createStatement();
-            int r = s.executeUpdate("insert into premios(Nombre, Puntos) values('" + Nombre + "', '" + Puntos + "';");
+            int r = s.executeUpdate("insert into premios(Nombre, Puntos) values('" + Nombre + "', '" + Puntos + "');");
+            conexion.cerrarConexion(con);
+            return true;
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+    public DefaultTableModel mostrarPremios()
+    {
+        try
+        {
+            Connection con = conexion.abrirConexion();
+            Statement s = con.createStatement();
+            DefaultTableModel modelo;
+            try
+            {
+                ResultSet rs = s.executeQuery("select idPremios as 'idPremio',"
+                +"Nombre as 'Nombre',"
+                +"Puntos as 'Puntos'"
+                +"from premios");
+                modelo = new DefaultTableModel();
+                ResultSetMetaData rsMd = rs.getMetaData();
+                int cantidadColumnas = rsMd.getColumnCount();
+                for(int i=1;i <=cantidadColumnas;i++)
+                {
+                    modelo.addColumn(rsMd.getColumnLabel(i));
+                }
+                while(rs.next()){
+                Object[] fila = new Object[cantidadColumnas];
+                for(int i = 0; i<cantidadColumnas; i++)
+                {
+                    fila[i]=rs.getObject(i+1);
+                }
+                    modelo.addRow(fila);
+                }
+                return modelo;
+            }
+            finally
+            {
+                conexion.cerrarConexion(con);
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+    public boolean borrarPremio(String idPremio)
+    {
+        try
+        {
+            Connection con = conexion.abrirConexion();
+            Statement s = con.createStatement();
+            int resultado = s.executeUpdate("delete from premios where idPremios = '" + idPremio + "';");
+            conexion.cerrarConexion(con);
+            return true;
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+    public boolean actualizarPremio(String Nombre, int Puntos, int idP)
+    {
+        try{
+            Connection con = conexion.abrirConexion();
+            Statement s = con.createStatement();
+            int resultado = s.executeUpdate("update premios set Nombre = '" + Nombre + "', Puntos = '" + Puntos + "' where idPremios = '" + idP + "';");
             conexion.cerrarConexion(con);
             return true;
         }
