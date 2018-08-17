@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Monedero;
+//package Monedero;
 
 import Controlador.ControlLogin;
 import Controlador.ControladorMonedero;
