@@ -63,4 +63,36 @@ public class ModeloLogin {
         }
          return control;
     }
+    public String[] jalarIdEmpleado(String usu, String contra)
+    {
+        ResultSet sql;       
+         try {
+            Connection con = conexion.abrirConexion();
+            Statement s = con.createStatement();
+            sql = s.executeQuery("SELECT empleado.idEmpleado, empleado.Sucursal_idSucursal, empleado.Nombre FROM empleado WHERE empleado.Usuario = '" + usu + "' && empleado.Contraseña = '" + contra + "' ");
+            //sql = s.executeQuery("SELECT empleado.nombre, empleado.apellidos, login.empleado_idEmpleado, empleado.sucursal_idSucursal FROM login INNER JOIN empleado ON empleado.idEmpleado = login.empleado_idEmpleado WHERE usuario='" + usu + "' && contraseña='" + contra + "' ");
+            String [] a = new String [3];
+            int i=0;
+            while(sql.next())
+            {
+                //Aqui se guarda el resultado de la consulta en un array
+                a[0]= sql.getString(1);
+                a[1]= sql.getString(2);
+                a[2]= sql.getString(3);
+                //a[3]= sql.getString(4);
+                //a[4]= ip;
+            }
+           conexion.cerrarConexion(con);
+           return a;
+        }
+        catch (SQLException ex)
+        {
+            JOptionPane.showMessageDialog(null, "Error al intentar abrir la base de datos.");
+            return null;
+        }
+         catch(NullPointerException e){
+//            JOptionPane.showMessageDialog(null, "Error al intentar conectar con el servidor.");
+            return null;
+        }
+    }
 }
