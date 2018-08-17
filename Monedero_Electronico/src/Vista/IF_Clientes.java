@@ -162,7 +162,6 @@ public class IF_Clientes extends javax.swing.JInternalFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Puntos:");
 
-        IF_Cliente_Puntos_Txt.setEditable(false);
         IF_Cliente_Puntos_Txt.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -284,6 +283,11 @@ public class IF_Clientes extends javax.swing.JInternalFrame {
                 "Id", "Nombre", "Apellidos", "Puntos", "Email", "Direccion", "Sexo", "Telefono"
             }
         ));
+        IF_Table_Clientes_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                IF_Table_Clientes_tableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(IF_Table_Clientes_table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -315,6 +319,10 @@ public class IF_Clientes extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void IF_Table_Clientes_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IF_Table_Clientes_tableMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IF_Table_Clientes_tableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

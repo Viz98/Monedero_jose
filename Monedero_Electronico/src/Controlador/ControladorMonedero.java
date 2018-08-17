@@ -14,13 +14,16 @@ import Vista.IF_HistorialCliente;
 import Vista.IF_Premios;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author jose_
  */
-public class ControladorMonedero implements ActionListener{
+public class ControladorMonedero implements ActionListener, MouseListener{
     private Desktop_Monedero M;
     private ModeloMonedero Mo;
     private IF_Abono A;
@@ -46,6 +49,7 @@ public class ControladorMonedero implements ActionListener{
         this.M.Desktop_Abono_Btn.addActionListener(this);
         this.M.Desktop_Historial_Btn.addActionListener(this);
         this.M.Desktop_Premios_Btn.addActionListener(this);
+        this.M.Desktop_Salir_Btn.addActionListener(this);
         
         this.M.Desktop_Escritorio_Monedero.add(this.A);
         this.M.Desktop_Escritorio_Monedero.add(this.C);
@@ -71,30 +75,36 @@ public class ControladorMonedero implements ActionListener{
         this.Cl.IF_Borrar_Clientes_Btn.addActionListener(this);
         this.Cl.IF_Insertar_Clientes_Btn.addActionListener(this);
         this.Cl.IF_Limpiar_Clientes_Btn.addActionListener(this);
-//        this.Cl.IF_Table_Clientes_table.addMouseListener(this);
+        this.Cl.IF_Table_Clientes_table.addMouseListener(this);
+        
+        this.P.IF_Premios_Actualizar_Btn.addActionListener(this);
+        this.P.IF_Premios_Borrar_Btn.addActionListener(this);
+        this.P.IF_Premios_Insertar_Btn.addActionListener(this);
+        this.P.IF_Premios_Limpiar_Btn.addActionListener(this);
     }
     public void iniciarVista(){
         this.M.setTitle("Monedero viz´98");
         this.M.pack();
         this.M.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.M.setLocationRelativeTo(null);
-        //AUS.Administrador_Usuarios_TablaUsuarios_Table.setModel(modelo.usuariosUsuariosConsultar());
+        Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
         this.M.setVisible(true);
         System.out.println("Prueba");
         System.out.println("");
         System.out.println("");
         
     }
-
-//    @Override
-//    public void actionPerformed(ActionEvent ae) 
-//    {   System.out.println("1");
-//        if(ae.getSource()== M.Desktop_Clientes_Btn)
-//        {
-//            System.out.println("ASDasda");
-//            Cl.toFront();
-//        }
-//    }
+    public void borrarCamposClientes()
+    {
+        this.Cl.IF_Cliente_Apellidos_Txt.setText("");
+        this.Cl.IF_Cliente_Direccion_Txt.setText("");
+        this.Cl.IF_Cliente_Email_Txt.setText("");
+        this.Cl.IF_Cliente_Nombre_Txt.setText("");
+        this.Cl.IF_Cliente_Puntos_Txt.setText("");
+        this.Cl.IF_Cliente_Sexo_Txt.setText("");
+        this.Cl.IF_Cliente_Telefono_Txt.setText("");
+        this.Cl.IF_Cliente_idCliente_Txt.setText("");
+    }
     @Override
     public void actionPerformed(ActionEvent e)
     {   
@@ -104,11 +114,39 @@ public class ControladorMonedero implements ActionListener{
             System.out.println("El nombre del empleado: " + empleado[2]);
             System.out.println("El id del empleado: " + empleado[0]);
             System.out.println("La sucursal donde trabaja es: " + empleado[1]);
+            Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
         }
-//            if(e.getSource() == Cl.IF_Insertar_Clientes_Btn)
-//            {
-//                if(Mo.insertarCliente(nombre, apellidos, 0, email, dire, sexo, tele))
-//            }
+            if(e.getSource() == Cl.IF_Insertar_Clientes_Btn)
+            {
+                if(Mo.insertarCliente( Cl.IF_Cliente_Nombre_Txt.getText(), Cl.IF_Cliente_Apellidos_Txt.getText(), Integer.parseInt(Cl.IF_Cliente_Puntos_Txt.getText()), Cl.IF_Cliente_Email_Txt.getText(), Cl.IF_Cliente_Direccion_Txt.getText(), Cl.IF_Cliente_Sexo_Txt.getText(),Cl.IF_Cliente_Telefono_Txt.getText()));
+                {
+                    JOptionPane.showMessageDialog(null, "Resgistro insertado exitosamente");
+                    Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
+                    this.borrarCamposClientes();
+                }
+            }
+            if(e.getSource() == Cl.IF_Actualizar_Clientes_Btn)
+            {
+                if(Mo.actualizarCliente(Cl.IF_Cliente_Nombre_Txt.getText(), Cl.IF_Cliente_Apellidos_Txt.getText(), Integer.parseInt(Cl.IF_Cliente_Puntos_Txt.getText()), Cl.IF_Cliente_Email_Txt.getText(), Cl.IF_Cliente_Direccion_Txt.getText(), Cl.IF_Cliente_Sexo_Txt.getText(),Cl.IF_Cliente_Telefono_Txt.getText()));
+                {
+                    JOptionPane.showMessageDialog(null, "Resgistro actualizado exitosamente");
+                    Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
+                    this.borrarCamposClientes();
+                }
+            }
+            if(e.getSource() == Cl.IF_Borrar_Clientes_Btn)
+            {
+                if(Mo.borrarCliente(Cl.IF_Cliente_idCliente_Txt.getText()))
+                {
+                    JOptionPane.showMessageDialog(null, "Resgistro eliminado exitosamente");
+                    Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
+                    this.borrarCamposClientes();
+                }
+            }
+            if(e.getSource() == Cl.IF_Limpiar_Clientes_Btn)
+            {
+                this.borrarCamposClientes();
+            }
         if(e.getSource() == M.Desktop_Abono_Btn)
         {
             this.A.toFront();
@@ -121,9 +159,53 @@ public class ControladorMonedero implements ActionListener{
         {
             this.P.toFront();
         }
+            if(e.getSource() == P.IF_Premios_Insertar_Btn)
+            {
+                if(Mo.insertarPremios(P.IF_Premios_Nombre_Txt1.getText(), Integer.parseInt(P.IF_Premios_Puntos_Txt.getText())))
+                {
+                    JOptionPane.showMessageDialog(null, "Resgistro insertado exitosamente");
+                }
+            }
         if(e.getSource() == M.Desktop_Historial_Btn)
         {
             this.HC.toFront();
         }
+        if(e.getSource() == M.Desktop_Salir_Btn)
+        {
+            System.exit(0);
+        }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent me) 
+    {
+        if(me.getSource() == Cl.IF_Table_Clientes_table)
+        {
+            int fila = Cl.IF_Table_Clientes_table.rowAtPoint(me.getPoint());
+            Cl.IF_Cliente_idCliente_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 0).toString());
+            Cl.IF_Cliente_Nombre_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 1).toString());
+            Cl.IF_Cliente_Apellidos_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 2).toString());
+            Cl.IF_Cliente_Puntos_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 3).toString());
+            Cl.IF_Cliente_Email_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 4).toString());
+            Cl.IF_Cliente_Direccion_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 5).toString());
+            Cl.IF_Cliente_Sexo_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 6).toString());
+            Cl.IF_Cliente_Telefono_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 7).toString());
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent me) {
     }
 }
