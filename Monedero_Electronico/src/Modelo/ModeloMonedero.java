@@ -25,9 +25,11 @@ public class ModeloMonedero
     {
         try{
             Connection con = conexion.abrirConexion();
+            con.setAutoCommit(false);
             Statement s = con.createStatement();
             int resultado = s.executeUpdate("insert into cliente(Nombre, Apellidos, Puntos, Email, Direccion, Sexo, Telefono) values('"
             + nombre + "', '" + apellidos + "', '" + 0 + "', '" + email + "', '" + dire + "', '" + sexo + "', '" + tele + "');");
+            con.commit();
             conexion.cerrarConexion(con);
             return true;
         }
@@ -138,6 +140,48 @@ public class ModeloMonedero
             try
             {
                 ResultSet rs = s.executeQuery("SELECT premios.idPremios, premios.Nombre, premios.Puntos, "
+                        + "sucursal.Nombre as 'Sucursal' FROM premios "
+                        + "INNER JOIN inventario ON inventario.Premios_idPremios = premios.idPremios "
+                        + "INNER JOIN sucursal on sucursal.idSucursal = inventario.Sucursal_idSucursal "
+                        + "WHERE sucursal.idSucursal = '" + idSu + "';");
+                modelo = new DefaultTableModel();
+                ResultSetMetaData rsMd = rs.getMetaData();
+                int cantidadColumnas = rsMd.getColumnCount();
+                for(int i=1;i <=cantidadColumnas;i++)
+                {
+                    modelo.addColumn(rsMd.getColumnLabel(i));
+                }
+                while(rs.next()){
+                Object[] fila = new Object[cantidadColumnas];
+                for(int i = 0; i<cantidadColumnas; i++)
+                {
+                    fila[i]=rs.getObject(i+1);
+                }
+                    modelo.addRow(fila);
+                }
+                return modelo;
+            }
+            finally
+            {
+                conexion.cerrarConexion(con);
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+    public DefaultTableModel mostrarPremios2(String idSu)
+    {
+        try
+        {
+            Connection con = conexion.abrirConexion();
+            Statement s = con.createStatement();
+            DefaultTableModel modelo;
+            try
+            {
+                ResultSet rs = s.executeQuery("SELECT inventario.idInventario, premios.Nombre, premios.Puntos, "
                         + "sucursal.Nombre as 'Sucursal' FROM premios "
                         + "INNER JOIN inventario ON inventario.Premios_idPremios = premios.idPremios "
                         + "INNER JOIN sucursal on sucursal.idSucursal = inventario.Sucursal_idSucursal "
@@ -355,4 +399,21 @@ public class ModeloMonedero
                     return null;
             }
     }
+     public boolean agregarCargo(String Fecha, String idC, String idE, String idI)
+     {
+         try
+         {
+             Connection con = conexion.abrirConexion();
+             Statement s = con.createStatement();
+             //int resultado = s.executeUpdate("INSERT INTO cargo (Fecha, Cliente_idCliente, Empleado_idEmpleado, Inventario_idInventario) values('"
+             //+ Fecha + "', '" + idC + "', '" + idE + "', '" + idI + "');");
+             int resultado = s.executeUpdate("INSERT INTO cargo (Fecha, Cliente_idCliente, Empleado_idEmpleado, Inventario_idInventario) VALUES ('" + Fecha + "', '" + idC + "', '" + idE + "', '" + idI + "');");
+             return true;
+         }
+         catch(SQLException e)
+         {
+             System.out.println(e.getMessage());
+             return false;
+         }
+     }
 }
