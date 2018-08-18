@@ -37,12 +37,17 @@ public class IF_Premios extends javax.swing.JInternalFrame {
         IF_Premios_Actualizar_Btn = new javax.swing.JButton();
         IF_Premios_Insertar_Btn = new javax.swing.JButton();
         IF_Premios_Borrar_Btn = new javax.swing.JButton();
+        IF_Premios_AgregarInventario_Btn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         IF_Premios_idPremio_Txt = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         IF_Premios_Nombre_Txt1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         IF_Premios_Puntos_Txt = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        IF_Premios_TablaGeneral_Table = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
 
@@ -69,12 +74,13 @@ public class IF_Premios extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1))
         );
 
+        IF_Table_Premios_table.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         IF_Table_Premios_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "idPremio", "Nombre", "Puntos"
+                "idPremio", "Nombre", "Puntos", "Sucursal"
             }
         ));
         jScrollPane1.setViewportView(IF_Table_Premios_table);
@@ -99,6 +105,14 @@ public class IF_Premios extends javax.swing.JInternalFrame {
         IF_Premios_Borrar_Btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         IF_Premios_Borrar_Btn.setText("Borrar");
 
+        IF_Premios_AgregarInventario_Btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        IF_Premios_AgregarInventario_Btn.setText("Agregar Iventario");
+        IF_Premios_AgregarInventario_Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IF_Premios_AgregarInventario_BtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -106,11 +120,13 @@ public class IF_Premios extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(IF_Premios_Limpiar_Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(104, 104, 104)
+                .addGap(48, 48, 48)
                 .addComponent(IF_Premios_Actualizar_Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(IF_Premios_AgregarInventario_Btn)
+                .addGap(43, 43, 43)
                 .addComponent(IF_Premios_Borrar_Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(109, 109, 109)
+                .addGap(52, 52, 52)
                 .addComponent(IF_Premios_Insertar_Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37))
         );
@@ -122,7 +138,8 @@ public class IF_Premios extends javax.swing.JInternalFrame {
                     .addComponent(IF_Premios_Insertar_Btn)
                     .addComponent(IF_Premios_Actualizar_Btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(IF_Premios_Borrar_Btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(IF_Premios_Limpiar_Btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(IF_Premios_Limpiar_Btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(IF_Premios_AgregarInventario_Btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -141,6 +158,23 @@ public class IF_Premios extends javax.swing.JInternalFrame {
 
         IF_Premios_Puntos_Txt.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
 
+        IF_Premios_TablaGeneral_Table.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        IF_Premios_TablaGeneral_Table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "idPremio", "Nombre", "Puntos"
+            }
+        ));
+        jScrollPane2.setViewportView(IF_Premios_TablaGeneral_Table);
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel5.setText("Inventario");
+
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel6.setText("Premios");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -152,40 +186,63 @@ public class IF_Premios extends javax.swing.JInternalFrame {
                 .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(IF_Premios_Puntos_Txt, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(IF_Premios_idPremio_Txt, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(IF_Premios_Nombre_Txt1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(IF_Premios_idPremio_Txt, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(432, Short.MAX_VALUE))
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(IF_Premios_Puntos_Txt, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(365, 365, 365)
+                .addComponent(jLabel5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(606, Short.MAX_VALUE)
+                    .addComponent(jLabel6)
+                    .addGap(147, 147, 147)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(3, 3, 3)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IF_Premios_idPremio_Txt, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IF_Premios_Nombre_Txt1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IF_Premios_Puntos_Txt, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(IF_Premios_idPremio_Txt, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(38, 38, 38)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(IF_Premios_Nombre_Txt1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(44, 44, 44)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(IF_Premios_Puntos_Txt, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(230, 230, 230)
+                    .addComponent(jLabel6)
+                    .addContainerGap(356, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -208,23 +265,32 @@ public class IF_Premios extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_IF_Premios_Actualizar_BtnActionPerformed
 
+    private void IF_Premios_AgregarInventario_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IF_Premios_AgregarInventario_BtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IF_Premios_AgregarInventario_BtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton IF_Premios_Actualizar_Btn;
+    public javax.swing.JButton IF_Premios_AgregarInventario_Btn;
     public javax.swing.JButton IF_Premios_Borrar_Btn;
     public javax.swing.JButton IF_Premios_Insertar_Btn;
     public javax.swing.JButton IF_Premios_Limpiar_Btn;
     public javax.swing.JTextField IF_Premios_Nombre_Txt1;
     public javax.swing.JTextField IF_Premios_Puntos_Txt;
+    public javax.swing.JTable IF_Premios_TablaGeneral_Table;
     public javax.swing.JTextField IF_Premios_idPremio_Txt;
     public javax.swing.JTable IF_Table_Premios_table;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
