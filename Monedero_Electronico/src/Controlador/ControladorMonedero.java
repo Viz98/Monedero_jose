@@ -16,6 +16,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -32,7 +36,11 @@ public class ControladorMonedero implements ActionListener, MouseListener{
     private IF_HistorialCliente HC;
     private IF_Premios P;
     public static String [] empleado;
-    
+    public static int punto;
+    private double calcular;
+    private String cliente;
+    private double temporal;
+    private int puntos;
     public ControladorMonedero(Desktop_Monedero M, ModeloMonedero Mo, IF_Abono A, IF_Cargo C, IF_Clientes CL, IF_HistorialCliente HC, IF_Premios P, String [] empleado)
     {
         this.M=M;
@@ -81,6 +89,17 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         this.P.IF_Premios_Borrar_Btn.addActionListener(this);
         this.P.IF_Premios_Insertar_Btn.addActionListener(this);
         this.P.IF_Premios_Limpiar_Btn.addActionListener(this);
+        
+        this.A.insertar.addActionListener(this);
+        this.A.tabla_abono.addMouseListener(this);
+        this.A.texto_importe.addActionListener(this);
+        this.A.texto_puntos.addActionListener(this);
+        this.A.texto_ticket.addActionListener(this);
+        
+        this.HC.tabla_ClientesHistorial.addMouseListener(this);
+        this.HC.tabla_abonos.addMouseListener(this);
+        this.HC.tabla_cargos.addMouseListener(this);
+        
     }
     public void iniciarVista(){
         this.M.setTitle("Monedero viz´98");
@@ -105,6 +124,28 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         this.Cl.IF_Cliente_Telefono_Txt.setText("");
         this.Cl.IF_Cliente_idCliente_Txt.setText("");
     }
+    
+    public void borrarCamposAbono()
+    {
+        this.A.texto_importe.setText("");
+        this.A.texto_ticket.setText("");
+        this.A.texto_nombreCliente.setText("");
+    }
+    
+    public boolean vaciosONoTxt(javax.swing.JTextField... args)
+    {
+        
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9@.ñ _]*$");
+        Matcher matcher;
+        for(javax.swing.JTextField arg : args){
+            matcher = pattern.matcher(arg.getText());
+            if(!arg.getText().equals("") && matcher.matches())
+                ;
+            else
+                return false;
+        }
+        return true;
+    }
     @Override
     public void actionPerformed(ActionEvent e)
     {   
@@ -116,7 +157,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
             System.out.println("La sucursal donde trabaja es: " + empleado[1]);
             Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
         }
-            if(e.getSource() == Cl.IF_Insertar_Clientes_Btn)
+        if(e.getSource() == Cl.IF_Insertar_Clientes_Btn)
             {
                 if(Mo.insertarCliente( Cl.IF_Cliente_Nombre_Txt.getText(), Cl.IF_Cliente_Apellidos_Txt.getText(), Integer.parseInt(Cl.IF_Cliente_Puntos_Txt.getText()), Cl.IF_Cliente_Email_Txt.getText(), Cl.IF_Cliente_Direccion_Txt.getText(), Cl.IF_Cliente_Sexo_Txt.getText(),Cl.IF_Cliente_Telefono_Txt.getText()));
                 {
@@ -125,7 +166,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
                     this.borrarCamposClientes();
                 }
             }
-            if(e.getSource() == Cl.IF_Actualizar_Clientes_Btn)
+        if(e.getSource() == Cl.IF_Actualizar_Clientes_Btn)
             {
                 if(Mo.actualizarCliente(Cl.IF_Cliente_Nombre_Txt.getText(), Cl.IF_Cliente_Apellidos_Txt.getText(), Integer.parseInt(Cl.IF_Cliente_Puntos_Txt.getText()), Cl.IF_Cliente_Email_Txt.getText(), Cl.IF_Cliente_Direccion_Txt.getText(), Cl.IF_Cliente_Sexo_Txt.getText(),Cl.IF_Cliente_Telefono_Txt.getText()));
                 {
@@ -134,7 +175,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
                     this.borrarCamposClientes();
                 }
             }
-            if(e.getSource() == Cl.IF_Borrar_Clientes_Btn)
+        if(e.getSource() == Cl.IF_Borrar_Clientes_Btn)
             {
                 if(Mo.borrarCliente(Cl.IF_Cliente_idCliente_Txt.getText()))
                 {
@@ -143,13 +184,52 @@ public class ControladorMonedero implements ActionListener, MouseListener{
                     this.borrarCamposClientes();
                 }
             }
-            if(e.getSource() == Cl.IF_Limpiar_Clientes_Btn)
+        if(e.getSource() == Cl.IF_Limpiar_Clientes_Btn)
             {
                 this.borrarCamposClientes();
             }
         if(e.getSource() == M.Desktop_Abono_Btn)
         {
             this.A.toFront();
+            this.A.texto_puntos.setText("");
+            this.A.texto_nombreCliente.setText("");
+            A.tabla_abono.setModel(Mo.mostrarClientes());
+        }
+        
+        if(A.insertar == e.getSource())
+        {
+            if(vaciosONoTxt(A.texto_importe, A.texto_ticket))
+            {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String date = sdf.format(new Date()); 
+                calcular = Double.parseDouble(A.texto_importe.getText());
+                temporal = calcular/10;
+                punto = (int)temporal;
+                System.out.println("Los puntos son: " + punto);
+                System.out.println("El id del cliente es: " + cliente);
+                System.out.println("El id del empleado es: " + empleado[0]);
+                if(Mo.insertarAbono(date, punto, Double.parseDouble(A.texto_importe.getText()), A.texto_ticket.getText(), cliente, empleado[0]))
+                {
+                    JOptionPane.showMessageDialog(null, "Resgistro insertado exitosamente");
+                    int valor = Integer.parseInt(Mo.ObtenerPuntosClientes(cliente));
+                    valor = valor + punto;
+                    A.texto_puntos.setText(""+punto);
+                    if(Mo.EnviarPuntosCliente(valor, cliente))
+                    {
+                        System.out.println("Se le envio los puntos al cliente");
+                        A.tabla_abono.setModel(Mo.mostrarClientes());
+                    }
+                    this.borrarCamposAbono();
+                    calcular = 0;
+                    temporal = 0;
+                    punto = 0;
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Ingrese importe y el ticket");
+            }
+            
         }
         if(e.getSource() == M.Desktop_Cargo_Btn)
         {
@@ -169,6 +249,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         if(e.getSource() == M.Desktop_Historial_Btn)
         {
             this.HC.toFront();
+            HC.tabla_ClientesHistorial.setModel(Mo.mostrarClientes());
         }
         if(e.getSource() == M.Desktop_Salir_Btn)
         {
@@ -183,6 +264,8 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         {
             int fila = Cl.IF_Table_Clientes_table.rowAtPoint(me.getPoint());
             Cl.IF_Cliente_idCliente_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 0).toString());
+            cliente = (Cl.IF_Table_Clientes_table.getValueAt(fila, 0).toString());
+            System.out.println("Cliente id: " + cliente);
             Cl.IF_Cliente_Nombre_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 1).toString());
             Cl.IF_Cliente_Apellidos_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 2).toString());
             Cl.IF_Cliente_Puntos_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 3).toString());
@@ -190,6 +273,22 @@ public class ControladorMonedero implements ActionListener, MouseListener{
             Cl.IF_Cliente_Direccion_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 5).toString());
             Cl.IF_Cliente_Sexo_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 6).toString());
             Cl.IF_Cliente_Telefono_Txt.setText(Cl.IF_Table_Clientes_table.getValueAt(fila, 7).toString());
+        }
+        
+        if(me.getSource() == A.tabla_abono)
+        {
+            System.out.println("Entra aqui");
+            int fila = A.tabla_abono.rowAtPoint(me.getPoint());
+            cliente = (A.tabla_abono.getValueAt(fila, 0).toString()); 
+            System.out.println("Cliente id: " + cliente);
+            A.texto_nombreCliente.setText(A.tabla_abono.getValueAt(fila, 1).toString());
+        }
+        if(me.getSource() == HC.tabla_ClientesHistorial){
+            System.out.println("Entra aqui");
+            int fila = HC.tabla_ClientesHistorial.rowAtPoint(me.getPoint());
+            cliente = (HC.tabla_ClientesHistorial.getValueAt(fila, 0).toString()); 
+            System.out.println("Cliente id: " + cliente);
+            HC.tabla_abonos.setModel(Mo.MostrarHistorialAbono(cliente));
         }
     }
 
