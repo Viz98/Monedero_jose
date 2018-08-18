@@ -11,15 +11,16 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author jose_
  */
-public class ModeloMonedero {
+public class ModeloMonedero 
+{
     private Conexion conexion = new Conexion();
-    
     public boolean insertarCliente(String nombre, String apellidos, String email, String dire, String sexo, String tele)
     {
         try{
@@ -136,7 +137,11 @@ public class ModeloMonedero {
             DefaultTableModel modelo;
             try
             {
-                ResultSet rs = s.executeQuery("SELECT premios.idPremios, premios.Nombre, premios.Puntos, sucursal.Nombre as 'Sucursal' FROM premios INNER JOIN inventario ON inventario.Premios_idPremios = premios.idPremios INNER JOIN sucursal on sucursal.idSucursal = inventario.Sucursal_idSucursal WHERE sucursal.idSucursal = '" + idSu + "';");
+                ResultSet rs = s.executeQuery("SELECT premios.idPremios, premios.Nombre, premios.Puntos, "
+                        + "sucursal.Nombre as 'Sucursal' FROM premios "
+                        + "INNER JOIN inventario ON inventario.Premios_idPremios = premios.idPremios "
+                        + "INNER JOIN sucursal on sucursal.idSucursal = inventario.Sucursal_idSucursal "
+                        + "WHERE sucursal.idSucursal = '" + idSu + "';");
                 modelo = new DefaultTableModel();
                 ResultSetMetaData rsMd = rs.getMetaData();
                 int cantidadColumnas = rsMd.getColumnCount();
@@ -250,5 +255,104 @@ public class ModeloMonedero {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+    public boolean insertarAbono(String fecha, int punto, Double importe, String idT, String idC, String idE){
+        try{
+            Connection con = conexion.abrirConexion();
+            Statement s = con.createStatement();
+            int resultado = s.executeUpdate("INSERT INTO abono (Fecha, Punto, Importe, idTicket, Cliente_idCliente, Empleado_idEmpleado) VALUES('"
+                     + fecha + "', '" + punto + "', '" + importe + "', '" + idT + "', '" + idC + "', '" + idE + "');");
+            
+            conexion.cerrarConexion(con);
+            return true;
+        }
+        catch(SQLException e)
+        {
+            //System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Ya se uso este ticket.");
+            return false;
+        }
+    }
+    public boolean EnviarPuntosCliente(int puntos, String idC){
+        try{
+            Connection con = conexion.abrirConexion();
+            Statement s = con.createStatement();
+            int resultado = s.executeUpdate("UPDATE cliente SET Puntos = '" + puntos +"' WHERE cliente.idCliente = '" + idC + "';");
+            
+            conexion.cerrarConexion(con);
+            return true;
+        }
+        catch(SQLException e)
+        {
+            //System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Ya se uso este ticket.");
+            return false;
+        }
+    }
+    public String ObtenerPuntosClientes(String idC)
+    {
+        ResultSet sql;       
+         try {
+            Connection con = conexion.abrirConexion();
+            Statement s = con.createStatement();
+            sql = s.executeQuery("SELECT cliente.Puntos FROM cliente WHERE cliente.idCliente = " + idC);
+            //sql = s.executeQuery("SELECT empleado.nombre, empleado.apellidos, login.empleado_idEmpleado, empleado.sucursal_idSucursal FROM login INNER JOIN empleado ON empleado.idEmpleado = login.empleado_idEmpleado WHERE usuario='" + usu + "' && contraseña='" + contra + "' ");
+            String a="";
+            int i=0;
+            while(sql.next())
+            {
+                //Aqui se guarda el resultado de la consulta en un array
+                a= sql.getString(1);
+            }
+           conexion.cerrarConexion(con);
+           return a;
+        }
+        catch (SQLException ex)
+        {
+            JOptionPane.showMessageDialog(null, "Error al intentar abrir la base de datos.");
+            return null;
+        }
+         catch(NullPointerException e){
+//            JOptionPane.showMessageDialog(null, "Error al intentar conectar con el servidor.");
+            return null;
+        }
+    }
+     public DefaultTableModel MostrarHistorialAbono(String idC)
+    {
+        try
+        {
+            Connection con = conexion.abrirConexion();
+            Statement s = con.createStatement();
+            DefaultTableModel modelo;
+            try
+            {
+                 ResultSet rs = s.executeQuery("SELECT abono.Fecha, abono.idTicket, abono.Importe ,abono.Punto "
+                         + "FROM abono INNER JOIN "
+                         + "cliente ON cliente.idCliente = abono.Cliente_idCliente "
+                         + "WHERE cliente.idCliente = " + idC);
+                modelo = new DefaultTableModel();
+                ResultSetMetaData rsMd = rs.getMetaData();
+                int cantidadColumnas = rsMd.getColumnCount();
+                for(int i=1;i <=cantidadColumnas;i++)
+                {
+                    modelo.addColumn(rsMd.getColumnLabel(i));
+                }
+                while(rs.next()){
+                Object[] fila = new Object[cantidadColumnas];
+                for(int i = 0; i<cantidadColumnas; i++)
+                {
+                    fila[i]=rs.getObject(i+1);
+                }
+                    modelo.addRow(fila);
+                }
+                return modelo;
+            }finally{
+                conexion.cerrarConexion(con);
+            }
+        }
+            catch(SQLException e){
+                    System.out.println(e.getMessage());
+                    return null;
+            }
     }
 }
