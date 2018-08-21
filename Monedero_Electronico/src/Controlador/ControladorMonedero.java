@@ -106,11 +106,6 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         this.P.IF_Premios_TablaGeneral_Table.addMouseListener(this);
         this.P.IF_Premios_AgregarInventario_Btn.addActionListener(this);
         
-        System.out.println("1");
-        System.out.println("2");
-        System.out.println("3");
-        System.out.println("4");
-        
         this.C.IF_Cargo_Canjear_Btn.addActionListener(this);
         this.C.IF_Cargo_TablaClientes_Table.addMouseListener(this);
         this.C.IF_Cargo_Inventario_Table.addMouseListener(this);
@@ -266,7 +261,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
                         int valor = Integer.parseInt(Mo.ObtenerPuntosClientes(cliente));
                         valor = valor + punto;
                         A.texto_puntos.setText(""+punto);
-                        if(Mo.EnviarPuntosCliente(valor, cliente))
+                        //if(Mo.EnviarPuntosCliente(valor, cliente))
                         {
                             System.out.println("Se le envio los puntos al cliente");
                             A.tabla_abono.setModel(Mo.mostrarClientes());
@@ -304,11 +299,14 @@ public class ControladorMonedero implements ActionListener, MouseListener{
                 System.out.println("puntos premio: "+puntospremio);
                 if(puntoscliente >= puntospremio)
                 {
-                    if(Mo.agregarCargo(date2, cliente, empleado[0], idInventario))
+                    //Aqui el autocomint
+                    int valor2 = puntoscliente-puntospremio;
+//                    if(Mo.agregarCargo(date2, cliente, empleado[0], idInventario))
+                    if(Mo.agregarCargopordemientras(date2, cliente, empleado[0], idInventario, valor2, cliente))
                     {
                         JOptionPane.showMessageDialog(null, "Registro insertado exitosamente");
-                        int valor2 = puntoscliente-puntospremio;
-                        Mo.EnviarPuntosCliente(valor2, cliente);
+//                        int valor2 = puntoscliente-puntospremio;
+//                        Mo.EnviarPuntosCliente(valor2, cliente);
                         C.IF_Cargo_TablaClientes_Table.setModel(Mo.mostrarClientes());
                         this.borrarCamposCargo();
                     }
