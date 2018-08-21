@@ -334,7 +334,7 @@ public class ModeloMonedero
         }
     }
     public String ObtenerPuntosClientes(String idC)
-    {
+    { 
         ResultSet sql;       
          try {
             Connection con = conexion.abrirConexion();
