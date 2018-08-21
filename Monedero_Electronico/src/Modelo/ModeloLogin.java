@@ -69,9 +69,9 @@ public class ModeloLogin {
          try {
             Connection con = conexion.abrirConexion();
             Statement s = con.createStatement();
-            sql = s.executeQuery("SELECT empleado.idEmpleado, empleado.Sucursal_idSucursal, empleado.Nombre FROM empleado WHERE empleado.Usuario = '" + usu + "' && empleado.Contraseña = '" + contra + "' ");
-            //sql = s.executeQuery("SELECT empleado.nombre, empleado.apellidos, login.empleado_idEmpleado, empleado.sucursal_idSucursal FROM login INNER JOIN empleado ON empleado.idEmpleado = login.empleado_idEmpleado WHERE usuario='" + usu + "' && contraseña='" + contra + "' ");
-            String [] a = new String [3];
+            //sql = s.executeQuery("SELECT empleado.idEmpleado, empleado.Sucursal_idSucursal, empleado.Nombre, FROM empleado WHERE empleado.Usuario = '" + usu + "' && empleado.Contraseña = '" + contra + "' ");
+            sql = s.executeQuery("SELECT empleado.idEmpleado, empleado.Sucursal_idSucursal, empleado.Nombre, sucursal.Nombre FROM empleado INNER JOIN sucursal ON sucursal.idSucursal = empleado.Sucursal_idSucursal WHERE empleado.Usuario = '" + usu + "' && empleado.Contraseña = '" + contra + "'");
+            String [] a = new String [4];
             int i=0;
             while(sql.next())
             {
@@ -79,7 +79,7 @@ public class ModeloLogin {
                 a[0]= sql.getString(1);
                 a[1]= sql.getString(2);
                 a[2]= sql.getString(3);
-                //a[3]= sql.getString(4);
+                a[3]= sql.getString(4);
                 //a[4]= ip;
             }
            conexion.cerrarConexion(con);
