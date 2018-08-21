@@ -106,6 +106,11 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         this.P.IF_Premios_TablaGeneral_Table.addMouseListener(this);
         this.P.IF_Premios_AgregarInventario_Btn.addActionListener(this);
         
+        System.out.println("1");
+        System.out.println("2");
+        System.out.println("3");
+        System.out.println("4");
+        
         this.C.IF_Cargo_Canjear_Btn.addActionListener(this);
         this.C.IF_Cargo_TablaClientes_Table.addMouseListener(this);
         this.C.IF_Cargo_Inventario_Table.addMouseListener(this);
@@ -445,6 +450,14 @@ public class ControladorMonedero implements ActionListener, MouseListener{
             cliente = (HC.tabla_ClientesHistorial.getValueAt(fila, 0).toString()); 
             System.out.println("Cliente id: " + cliente);
             HC.tabla_abonos.setModel(Mo.MostrarHistorialAbono(cliente));
+        }
+        if(me.getSource() == HC.tabla_cargos)
+        {
+            System.out.println("Entra aqui");
+            int fila = HC.tabla_cargos.rowAtPoint(me.getPoint());
+            cliente = (HC.tabla_cargos.getValueAt(fila, 0).toString()); 
+            System.out.println("Cliente id: " + cliente);
+            HC.tabla_cargos.setModel(Mo.MostrarHistorialAbono(cliente));
         }
         if(me.getSource() == P.IF_Premios_TablaGeneral_Table)
         {
