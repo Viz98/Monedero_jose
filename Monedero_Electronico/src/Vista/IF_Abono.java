@@ -98,7 +98,7 @@ public class IF_Abono extends javax.swing.JInternalFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         insertar.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        insertar.setText("Insertar");
+        insertar.setText("Abonar");
         insertar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         insertar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

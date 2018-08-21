@@ -39,6 +39,8 @@ public class ControladorMonedero implements ActionListener, MouseListener{
     public static int punto;
     private double calcular;
     private String cliente;
+    private String cliente2;
+    private String idInventario;
     private double temporal;
     private int puntos;
     public ControladorMonedero(Desktop_Monedero M, ModeloMonedero Mo, IF_Abono A, IF_Cargo C, IF_Clientes CL, IF_HistorialCliente HC, IF_Premios P, String [] empleado)
@@ -99,6 +101,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         this.HC.tabla_ClientesHistorial.addMouseListener(this);
         this.HC.tabla_abonos.addMouseListener(this);
         this.HC.tabla_cargos.addMouseListener(this);
+        
         this.P.IF_Table_Premios_table.addMouseListener(this);
         this.P.IF_Premios_TablaGeneral_Table.addMouseListener(this);
         this.P.IF_Premios_AgregarInventario_Btn.addActionListener(this);
@@ -108,6 +111,9 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         System.out.println("3");
         System.out.println("4");
         
+        this.C.IF_Cargo_Canjear_Btn.addActionListener(this);
+        this.C.IF_Cargo_TablaClientes_Table.addMouseListener(this);
+        this.C.IF_Cargo_Inventario_Table.addMouseListener(this);
     }
     public void iniciarVista(){
         this.M.setTitle("Monedero viz´98");
@@ -138,7 +144,13 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         this.A.texto_ticket.setText("");
         this.A.texto_nombreCliente.setText("");
     }
-    
+    public void borrarCamposCargo()
+    {
+        this.C.IF_Cargo_Nombre_Txt.setText("");
+        this.C.IF_Cargo_Premio_Txt.setText("");
+        this.C.IF_Cargo_PuntosCliente_Txt.setText("");
+        this.C.IF_Cargo_PuntosPremio_Txt.setText("");
+    }
     public boolean vaciosONoTxt(javax.swing.JTextField... args)
     {
         
@@ -171,58 +183,58 @@ public class ControladorMonedero implements ActionListener, MouseListener{
             System.out.println("La sucursal donde trabaja es: " + empleado[1]);
             Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
         }
-        if(e.getSource() == Cl.IF_Insertar_Clientes_Btn)
-            {
-                if(vaciosONoTxt(Cl.IF_Cliente_Apellidos_Txt, Cl.IF_Cliente_Direccion_Txt, Cl.IF_Cliente_Email_Txt, Cl.IF_Cliente_Nombre_Txt,Cl.IF_Cliente_Sexo_Txt,Cl.IF_Cliente_Telefono_Txt))
+            if(e.getSource() == Cl.IF_Insertar_Clientes_Btn)
                 {
-                    if(Mo.insertarCliente( Cl.IF_Cliente_Nombre_Txt.getText(), Cl.IF_Cliente_Apellidos_Txt.getText(),Cl.IF_Cliente_Email_Txt.getText(), Cl.IF_Cliente_Direccion_Txt.getText(), Cl.IF_Cliente_Sexo_Txt.getText(),Cl.IF_Cliente_Telefono_Txt.getText()));
+                    if(vaciosONoTxt(Cl.IF_Cliente_Apellidos_Txt, Cl.IF_Cliente_Direccion_Txt, Cl.IF_Cliente_Email_Txt, Cl.IF_Cliente_Nombre_Txt,Cl.IF_Cliente_Sexo_Txt,Cl.IF_Cliente_Telefono_Txt))
                     {
-                        JOptionPane.showMessageDialog(null, "Resgistro insertado exitosamente");
-                        Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
-                        this.borrarCamposClientes();
+                        if(Mo.insertarCliente( Cl.IF_Cliente_Nombre_Txt.getText(), Cl.IF_Cliente_Apellidos_Txt.getText(),Cl.IF_Cliente_Email_Txt.getText(), Cl.IF_Cliente_Direccion_Txt.getText(), Cl.IF_Cliente_Sexo_Txt.getText(),Cl.IF_Cliente_Telefono_Txt.getText()));
+                        {
+                            JOptionPane.showMessageDialog(null, "Resgistro insertado exitosamente");
+                            Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
+                            this.borrarCamposClientes();
+                        }
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Error: Campos vacios o caracteres invalidos");                    
                     }
                 }
-                else
+            if(e.getSource() == Cl.IF_Actualizar_Clientes_Btn)
                 {
-                    JOptionPane.showMessageDialog(null, "Error: Campos vacios o caracteres invalidos");                    
-                }
-            }
-        if(e.getSource() == Cl.IF_Actualizar_Clientes_Btn)
-            {
-                if(vaciosONoTxt(Cl.IF_Cliente_Apellidos_Txt, Cl.IF_Cliente_Direccion_Txt, Cl.IF_Cliente_Email_Txt, Cl.IF_Cliente_Nombre_Txt,Cl.IF_Cliente_Sexo_Txt,Cl.IF_Cliente_Telefono_Txt))
-                {
-                    if(Mo.actualizarCliente(Cl.IF_Cliente_Nombre_Txt.getText(), Cl.IF_Cliente_Apellidos_Txt.getText(), Cl.IF_Cliente_Email_Txt.getText(), Cl.IF_Cliente_Direccion_Txt.getText(), Cl.IF_Cliente_Sexo_Txt.getText(),Cl.IF_Cliente_Telefono_Txt.getText(), Integer.parseInt(Cl.IF_Cliente_idCliente_Txt.getText())));
+                    if(vaciosONoTxt(Cl.IF_Cliente_Apellidos_Txt, Cl.IF_Cliente_Direccion_Txt, Cl.IF_Cliente_Email_Txt, Cl.IF_Cliente_Nombre_Txt,Cl.IF_Cliente_Sexo_Txt,Cl.IF_Cliente_Telefono_Txt))
                     {
-                        JOptionPane.showMessageDialog(null, "Resgistro actualizado exitosamente");
-                        Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
-                        this.borrarCamposClientes();
+                        if(Mo.actualizarCliente(Cl.IF_Cliente_Nombre_Txt.getText(), Cl.IF_Cliente_Apellidos_Txt.getText(), Cl.IF_Cliente_Email_Txt.getText(), Cl.IF_Cliente_Direccion_Txt.getText(), Cl.IF_Cliente_Sexo_Txt.getText(),Cl.IF_Cliente_Telefono_Txt.getText(), Integer.parseInt(Cl.IF_Cliente_idCliente_Txt.getText())));
+                        {
+                            JOptionPane.showMessageDialog(null, "Resgistro actualizado exitosamente");
+                            Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
+                            this.borrarCamposClientes();
+                        }
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Error: Campos vacios o caracteres invalidos");                    
                     }
                 }
-                else
+            if(e.getSource() == Cl.IF_Borrar_Clientes_Btn)
                 {
-                    JOptionPane.showMessageDialog(null, "Error: Campos vacios o caracteres invalidos");                    
-                }
-            }
-        if(e.getSource() == Cl.IF_Borrar_Clientes_Btn)
-            {
-                if(vaciosONoTxt(Cl.IF_Cliente_Apellidos_Txt, Cl.IF_Cliente_Direccion_Txt, Cl.IF_Cliente_Email_Txt, Cl.IF_Cliente_Nombre_Txt,Cl.IF_Cliente_Sexo_Txt,Cl.IF_Cliente_Telefono_Txt))
-                {
-                    if(Mo.borrarCliente(Cl.IF_Cliente_idCliente_Txt.getText()))
+                    if(vaciosONoTxt(Cl.IF_Cliente_Apellidos_Txt, Cl.IF_Cliente_Direccion_Txt, Cl.IF_Cliente_Email_Txt, Cl.IF_Cliente_Nombre_Txt,Cl.IF_Cliente_Sexo_Txt,Cl.IF_Cliente_Telefono_Txt))
                     {
-                        JOptionPane.showMessageDialog(null, "Resgistro eliminado exitosamente");
-                        Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
-                        this.borrarCamposClientes();
+                        if(Mo.borrarCliente(Cl.IF_Cliente_idCliente_Txt.getText()))
+                        {
+                         JOptionPane.showMessageDialog(null, "Resgistro eliminado exitosamente");
+                         Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
+                         this.borrarCamposClientes();
+                        }
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Error: Campos vacios o caracteres invalidos");                                        
                     }
                 }
-                else
+            if(e.getSource() == Cl.IF_Limpiar_Clientes_Btn)
                 {
-                    JOptionPane.showMessageDialog(null, "Error: Campos vacios o caracteres invalidos");                                        
-                }
-            }
-        if(e.getSource() == Cl.IF_Limpiar_Clientes_Btn)
-            {
-                this.borrarCamposClientes();
-            }
+                    this.borrarCamposClientes();
+                }   
         if(e.getSource() == M.Desktop_Abono_Btn)
         {
             this.A.toFront();
@@ -231,45 +243,80 @@ public class ControladorMonedero implements ActionListener, MouseListener{
             A.tabla_abono.setModel(Mo.mostrarClientes());
         }
         
-        if(A.insertar == e.getSource())
-        {
-            if(vaciosONoTxt(A.texto_importe, A.texto_ticket))
+            if(A.insertar == e.getSource())
             {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String date = sdf.format(new Date()); 
-                calcular = Double.parseDouble(A.texto_importe.getText());
-                temporal = calcular/10;
-                punto = (int)temporal;
-                System.out.println("Los puntos son: " + punto);
-                System.out.println("El id del cliente es: " + cliente);
-                System.out.println("El id del empleado es: " + empleado[0]);
-                if(Mo.insertarAbono(date, punto, Double.parseDouble(A.texto_importe.getText()), A.texto_ticket.getText(), cliente, empleado[0]))
+                if(vaciosONoTxt(A.texto_importe, A.texto_ticket))
                 {
-                    JOptionPane.showMessageDialog(null, "Resgistro insertado exitosamente");
-                    int valor = Integer.parseInt(Mo.ObtenerPuntosClientes(cliente));
-                    valor = valor + punto;
-                    A.texto_puntos.setText(""+punto);
-                    if(Mo.EnviarPuntosCliente(valor, cliente))
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    String date = sdf.format(new Date()); 
+                    calcular = Double.parseDouble(A.texto_importe.getText());
+                    temporal = calcular/10;
+                    punto = (int)temporal;
+                    System.out.println("Los puntos son: " + punto);
+                    System.out.println("El id del cliente es: " + cliente);
+                    System.out.println("El id del empleado es: " + empleado[0]);
+                    if(Mo.insertarAbono(date, punto, Double.parseDouble(A.texto_importe.getText()), A.texto_ticket.getText(), cliente, empleado[0]))
                     {
-                        System.out.println("Se le envio los puntos al cliente");
-                        A.tabla_abono.setModel(Mo.mostrarClientes());
+                        JOptionPane.showMessageDialog(null, "Resgistro insertado exitosamente");
+                        int valor = Integer.parseInt(Mo.ObtenerPuntosClientes(cliente));
+                        valor = valor + punto;
+                        A.texto_puntos.setText(""+punto);
+                        if(Mo.EnviarPuntosCliente(valor, cliente))
+                        {
+                            System.out.println("Se le envio los puntos al cliente");
+                            A.tabla_abono.setModel(Mo.mostrarClientes());
+                        }
+                        this.borrarCamposAbono();
+                        calcular = 0;
+                        temporal = 0;
+                        punto = 0;
                     }
-                    this.borrarCamposAbono();
-                    calcular = 0;
-                    temporal = 0;
-                    punto = 0;
                 }
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null, "Ingrese importe y el ticket");
-            }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Ingrese importe y el ticket");
+                }
             
-        }
+            }
         if(e.getSource() == M.Desktop_Cargo_Btn)
         {
             this.C.toFront();
+            C.IF_Cargo_TablaClientes_Table.setModel(Mo.mostrarClientes());
+            C.IF_Cargo_Inventario_Table.setModel(Mo.mostrarPremios2(ControladorMonedero.empleado[1]));
         }
+            if(e.getSource() == C.IF_Cargo_Canjear_Btn)
+            {
+                SimpleDateFormat sdff = new SimpleDateFormat("yyyy-MM-dd");
+                String date2 = sdff.format(new Date());
+                System.out.println("la fecha: " + date2);
+                System.out.println("el id cliente es: "+ cliente);
+                System.out.println("el id empleado es: "+ControladorMonedero.empleado[1]);
+                System.out.println("el id inventario es: "+idInventario);
+                
+                int puntoscliente = Integer.parseInt(C.IF_Cargo_PuntosCliente_Txt.getText());
+                int puntospremio = Integer.parseInt(C.IF_Cargo_PuntosPremio_Txt.getText());
+                System.out.println("puntos cliente: "+puntoscliente);
+                System.out.println("puntos premio: "+puntospremio);
+                if(puntoscliente >= puntospremio)
+                {
+                    if(Mo.agregarCargo(date2, cliente, empleado[0], idInventario))
+                    {
+                        JOptionPane.showMessageDialog(null, "Registro insertado exitosamente");
+                        int valor2 = puntoscliente-puntospremio;
+                        Mo.EnviarPuntosCliente(valor2, cliente);
+                        C.IF_Cargo_TablaClientes_Table.setModel(Mo.mostrarClientes());
+                        this.borrarCamposCargo();
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Error: No pudo insertar el cargo");                      
+                    }
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Error: No cuenta con los puntos suficientes");                                          
+                }
+            }
         if(e.getSource() == M.Desktop_Premios_Btn)
         {
             this.P.toFront();
@@ -278,7 +325,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         }
             if(e.getSource() == P.IF_Premios_Insertar_Btn)
             {
-                if(vaciosONoTxt(P.IF_Premios_Nombre_Txt1,P.IF_Premios_Puntos_Txt,P.IF_Premios_idPremio_Txt))
+                if(vaciosONoTxt(P.IF_Premios_Nombre_Txt1,P.IF_Premios_Puntos_Txt))
                 {
                     if(Mo.insertarPremios(P.IF_Premios_Nombre_Txt1.getText(), Integer.parseInt(P.IF_Premios_Puntos_Txt.getText())))
                     {
@@ -364,6 +411,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         {
             System.exit(0);
         }
+        
     }
 
     @Override
@@ -414,6 +462,20 @@ public class ControladorMonedero implements ActionListener, MouseListener{
             P.IF_Premios_Nombre_Txt1.setText(P.IF_Premios_TablaGeneral_Table.getValueAt(f, 1).toString());
             P.IF_Premios_Puntos_Txt.setText(P.IF_Premios_TablaGeneral_Table.getValueAt(f, 2).toString());
 
+        }
+        if(me.getSource() == C.IF_Cargo_TablaClientes_Table)
+        {
+            int f = C.IF_Cargo_TablaClientes_Table.rowAtPoint(me.getPoint());
+            cliente = (C.IF_Cargo_TablaClientes_Table.getValueAt(f, 0).toString());
+            C.IF_Cargo_Nombre_Txt.setText(C.IF_Cargo_TablaClientes_Table.getValueAt(f, 1).toString());
+            C.IF_Cargo_PuntosCliente_Txt.setText(C.IF_Cargo_TablaClientes_Table.getValueAt(f, 3).toString());
+        }
+        if(me.getSource() == C.IF_Cargo_Inventario_Table)
+        {
+            int f = C.IF_Cargo_Inventario_Table.rowAtPoint(me.getPoint());
+            idInventario = (C.IF_Cargo_Inventario_Table.getValueAt(f, 0).toString());
+            C.IF_Cargo_Premio_Txt.setText(C.IF_Cargo_Inventario_Table.getValueAt(f, 1).toString());
+            C.IF_Cargo_PuntosPremio_Txt.setText(C.IF_Cargo_Inventario_Table.getValueAt(f, 2).toString());
         }
     }
 
