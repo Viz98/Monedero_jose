@@ -7,6 +7,7 @@ package Modelo;
 
 import Controlador.ControladorMonedero;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -317,24 +318,40 @@ public class ModeloMonedero
             return false;
         }
     }
-    public boolean EnviarPuntosCliente(int puntos, String idC){
-        try{
-            Connection con = conexion.abrirConexion();
-            Statement s = con.createStatement();
-            int resultado = s.executeUpdate("UPDATE cliente SET Puntos = '" + puntos +"' WHERE cliente.idCliente = '" + idC + "';");
-            
-            conexion.cerrarConexion(con);
-            return true;
-        }
-        catch(SQLException e)
-        {
-            //System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ya se uso este ticket.");
-            return false;
-        }
-    }
+//    public boolean EnviarPuntosCliente(int puntos, String idC){
+//        try{
+//            Connection con = conexion.abrirConexion();
+//            Statement s = con.createStatement();
+//            int resultado = s.executeUpdate("UPDATE cliente SET Puntos = '" + puntos +"' WHERE cliente.idCliente = '" + idC + "';");
+//            
+//            conexion.cerrarConexion(con);
+//            return true;
+//        }
+//        catch(SQLException e)
+//        {
+//            //System.out.println(e.getMessage());
+//            JOptionPane.showMessageDialog(null, "Ya se uso este ticket.");
+//            return false;
+//        }
+//    }
+//    public boolean EnviarPuntosClientepordemientras(int puntos, String idC){
+//        try{
+//            Connection con = conexion.abrirConexion();
+//            Statement s = con.createStatement();
+//            int resultado = s.executeUpdate("UPDATE cliente SET Puntos = '" + puntos +"' WHERE cliente.idCliente = '" + idC + "';");
+//            
+//            conexion.cerrarConexion(con);
+//            return true;
+//        }
+//        catch(SQLException e)
+//        {
+//            //System.out.println(e.getMessage());
+//            JOptionPane.showMessageDialog(null, "Ya se uso este ticket.");
+//            return false;
+//        }
+//    }
     public String ObtenerPuntosClientes(String idC)
-    {
+    { 
         ResultSet sql;       
          try {
             Connection con = conexion.abrirConexion();
@@ -447,16 +464,43 @@ public class ModeloMonedero
              return null;
         }
     }
-     public boolean agregarCargo(String Fecha, String idC, String idE, String idI)
+    public boolean agregarCargo(String Fecha, String idC, String idE, String idI)
      {
          try
          {
              Connection con = conexion.abrirConexion();
              Statement s = con.createStatement();
-             //int resultado = s.executeUpdate("INSERT INTO cargo (Fecha, Cliente_idCliente, Empleado_idEmpleado, Inventario_idInventario) values('"
-             //+ Fecha + "', '" + idC + "', '" + idE + "', '" + idI + "');");
              int resultado = s.executeUpdate("INSERT INTO cargo (Fecha, Cliente_idCliente, Empleado_idEmpleado, Inventario_idInventario) VALUES ('" + Fecha + "', '" + idC + "', '" + idE + "', '" + idI + "');");
              return true;
+         }
+         catch(SQLException e)
+         {
+             System.out.println(e.getMessage());
+             return false;
+         }
+     }
+    public boolean agregarCargopordemientras(String Fecha, String idC, String idE, String idI, int puntos, String idC2)
+     {
+        PreparedStatement updateTransaccion1 = null;
+        PreparedStatement updateTransaccion2 = null;
+        
+        String agregarcargo = "INSERT INTO cargo (Fecha, Cliente_idCliente, Empleado_idEmpleado, Inventario_idInventario) VALUES ('" + Fecha + "', '" + idC + "', '" + idE + "', '" + idI + "');";
+        String enviarpuntos = "UPDATE cliente SET Puntos = '" + puntos +"' WHERE cliente.idCliente = '" + idC2 + "';";
+        Connection con = null;
+        try
+         {
+            con = conexion.abrirConexion();
+            con.setAutoCommit(false);
+            updateTransaccion1 = con.prepareStatement(agregarcargo);
+            updateTransaccion2 = con.prepareStatement(enviarpuntos);
+            int r1=updateTransaccion1.executeUpdate(); 
+            int r2=updateTransaccion2.executeUpdate(); 
+            if(r1 == 0 || r2 ==0)
+                throw new SQLException("La cuenta no existe");
+            
+            con.commit();
+            conexion.cerrarConexion(con);
+            return true;
          }
          catch(SQLException e)
          {

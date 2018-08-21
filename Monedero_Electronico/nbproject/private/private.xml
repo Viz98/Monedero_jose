@@ -3,9 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/alfredo/Documents/GitHub/Fleetock/Monedero_jose/Monedero_Electronico/src/Vista/IF_HistorialCliente.java</file>
             <file>file:/C:/Users/alfredo/Documents/GitHub/Fleetock/Monedero_jose/Monedero_Electronico/src/Modelo/ModeloMonedero.java</file>
             <file>file:/C:/Users/alfredo/Documents/GitHub/Fleetock/Monedero_jose/Monedero_Electronico/src/Controlador/ControladorMonedero.java</file>
+=======
+            <file>file:/C:/Users/jose_/OneDrive/Documentos/GitHub/Monedero_jose/Monedero_jose/Monedero_Electronico/src/Controlador/ControladorMonedero.java</file>
+>>>>>>> c80abadb76b3ca5ed0435045cb3fab2ca9c34c98
         </group>
     </open-files>
 </project-private>
