@@ -103,6 +103,11 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         this.P.IF_Premios_TablaGeneral_Table.addMouseListener(this);
         this.P.IF_Premios_AgregarInventario_Btn.addActionListener(this);
         
+        System.out.println("1");
+        System.out.println("2");
+        System.out.println("3");
+        System.out.println("4");
+        
     }
     public void iniciarVista(){
         this.M.setTitle("Monedero viz´98");

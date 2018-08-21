@@ -317,7 +317,7 @@ public class ModeloMonedero
             return null;
         }
     }
-     public DefaultTableModel MostrarHistorialAbono(String idC)
+    public DefaultTableModel MostrarHistorialAbono(String idC)
     {
         try
         {
@@ -356,7 +356,8 @@ public class ModeloMonedero
             }
     }
     public DefaultTableModel cargos(String idC){
-         try{
+         try
+         {
             //Abrir la conexión
             Connection con = conexion.abrirConexion();
             //Para generar la consulta
@@ -397,7 +398,8 @@ public class ModeloMonedero
                 //Cerrar conexión (objeto de resultSet)
                 conexion.cerrarConexion(con);
             }
-        }catch(SQLException e){
+        }catch(SQLException e)
+        {
              return null;
         }
     }
