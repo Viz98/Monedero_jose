@@ -40,6 +40,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
     private double calcular;
     private String cliente;
     private String cliente2;
+    private String idI;
     private String idInventario;
     private double temporal;
     private int puntos;
@@ -253,17 +254,20 @@ public class ControladorMonedero implements ActionListener, MouseListener{
                     System.out.println("Los puntos son: " + punto);
                     System.out.println("El id del cliente es: " + cliente);
                     System.out.println("El id del empleado es: " + empleado[0]);
-                    if(Mo.insertarAbono(date, punto, Double.parseDouble(A.texto_importe.getText()), A.texto_ticket.getText(), cliente, empleado[0]))
+                    int valor = Integer.parseInt(Mo.ObtenerPuntosClientes(cliente));
+                    valor = valor + punto;
+                    //if(Mo.insertarAbono(date, punto, Double.parseDouble(A.texto_importe.getText()), A.texto_ticket.getText(), cliente, empleado[0]))
+                    if(Mo.insertarAbonopordemientras(date, punto, Double.parseDouble(A.texto_importe.getText()), A.texto_ticket.getText(), cliente, empleado[0], valor, cliente))
                     {
                         JOptionPane.showMessageDialog(null, "Resgistro insertado exitosamente");
-                        int valor = Integer.parseInt(Mo.ObtenerPuntosClientes(cliente));
-                        valor = valor + punto;
+                        //int valor = Integer.parseInt(Mo.ObtenerPuntosClientes(cliente));
+                        //valor = valor + punto;
                         A.texto_puntos.setText(""+punto);
                         //if(Mo.EnviarPuntosCliente(valor, cliente))
-                        {
+                        //{
                             System.out.println("Se le envio los puntos al cliente");
                             A.tabla_abono.setModel(Mo.mostrarClientes());
-                        }
+                        //}
                         this.borrarCamposAbono();
                         calcular = 0;
                         temporal = 0;
@@ -350,8 +354,8 @@ public class ControladorMonedero implements ActionListener, MouseListener{
                 this.borrarCamposPremios();
             }
             if(e.getSource() == P.IF_Premios_Borrar_Btn)
-            {
-                if(vaciosONoTxt(P.IF_Premios_Nombre_Txt1,P.IF_Premios_Puntos_Txt,P.IF_Premios_idPremio_Txt))
+            {   
+                if(Mo.descontinuarproducto(idI))
                 {
                     if(Mo.borrarPremio(P.IF_Premios_idPremio_Txt.getText()))
                     {
@@ -362,12 +366,12 @@ public class ControladorMonedero implements ActionListener, MouseListener{
                     }
                     else
                     {
-                        JOptionPane.showMessageDialog(null, "Error: Primero elimine el premio del inventario");
+                        JOptionPane.showMessageDialog(null, "Error: No se pudo eliminar");
                     }
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(null, "Error: Campos vacios o caracteres invalidos");                                                            
+                        JOptionPane.showMessageDialog(null, "Error: No se pudo eliminar");  
                 }
             }
             if(e.getSource() == P.IF_Premios_Actualizar_Btn)
@@ -456,6 +460,13 @@ public class ControladorMonedero implements ActionListener, MouseListener{
             P.IF_Premios_Nombre_Txt1.setText(P.IF_Premios_TablaGeneral_Table.getValueAt(f, 1).toString());
             P.IF_Premios_Puntos_Txt.setText(P.IF_Premios_TablaGeneral_Table.getValueAt(f, 2).toString());
 
+        }
+        if(me.getSource() == P.IF_Table_Premios_table)
+        {
+            int f1 = P.IF_Table_Premios_table.rowAtPoint(me.getPoint());
+            idI = (P.IF_Table_Premios_table.getValueAt(f1, 0).toString());
+            System.out.println("id inventario: "+idI);
+            P.IF_Premios_Nombre_Txt1.setText(P.IF_Table_Premios_table.getValueAt(f1, 1).toString());
         }
         if(me.getSource() == C.IF_Cargo_TablaClientes_Table)
         {
