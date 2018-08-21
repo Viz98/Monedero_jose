@@ -124,10 +124,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         this.M.setLocationRelativeTo(null);
         Cl.IF_Table_Clientes_table.setModel(Mo.mostrarClientes());
         this.M.setVisible(true);
-        System.out.println("Prueba");
-        System.out.println("");
-        System.out.println("");
-        
+        this.M.sucursal.setText(""+empleado[3]);
     }
     public void borrarCamposClientes()
     {
@@ -454,14 +451,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
             cliente = (HC.tabla_ClientesHistorial.getValueAt(fila, 0).toString()); 
             System.out.println("Cliente id: " + cliente);
             HC.tabla_abonos.setModel(Mo.MostrarHistorialAbono(cliente));
-        }
-        if(me.getSource() == HC.tabla_cargos)
-        {
-            System.out.println("Entra aqui");
-            int fila = HC.tabla_cargos.rowAtPoint(me.getPoint());
-            cliente = (HC.tabla_cargos.getValueAt(fila, 0).toString()); 
-            System.out.println("Cliente id: " + cliente);
-            HC.tabla_cargos.setModel(Mo.MostrarHistorialAbono(cliente));
+            HC.tabla_cargos.setModel(Mo.MostrarHistorialCargos(cliente));
         }
         if(me.getSource() == P.IF_Premios_TablaGeneral_Table)
         {

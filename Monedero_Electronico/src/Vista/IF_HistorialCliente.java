@@ -85,7 +85,7 @@ public class IF_HistorialCliente extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Fecha", "Empleado", "Nombre", "Empleado", "Apellido", "Premio", "Puntos"
+                "Fecha", "Cliente", "Premio", "Puntos", "Empleado"
             }
         ));
         jScrollPane1.setViewportView(tabla_cargos);
@@ -95,7 +95,7 @@ public class IF_HistorialCliente extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Fecha", "Ticket", "Importe", "Puntos", "Nombre del empleado"
+                "Fecha", "Ticket", "Importe", "Puntos", "Empleado"
             }
         ));
         jScrollPane2.setViewportView(tabla_abonos);

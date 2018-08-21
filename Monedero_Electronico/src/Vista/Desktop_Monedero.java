@@ -31,6 +31,8 @@ public class Desktop_Monedero extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         Desktop_Salir_Btn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        sucursal = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         Desktop_Clientes_Btn = new javax.swing.JButton();
         Desktop_Abono_Btn = new javax.swing.JButton();
@@ -51,12 +53,22 @@ public class Desktop_Monedero extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Vivaldi", 0, 36)); // NOI18N
         jLabel1.setText("Monedero Electronico Viz´98");
 
+        jLabel2.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
+        jLabel2.setText("Sucursal del");
+
+        sucursal.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
+        sucursal.setText("jLabel3");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(368, Short.MAX_VALUE)
+                .addGap(31, 31, 31)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sucursal)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 263, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(133, 133, 133)
                 .addComponent(Desktop_Salir_Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -71,6 +83,12 @@ public class Desktop_Monedero extends javax.swing.JFrame {
                         .addComponent(Desktop_Salir_Btn)
                         .addContainerGap())
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(sucursal))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(153, 153, 153));
@@ -266,8 +284,10 @@ public class Desktop_Monedero extends javax.swing.JFrame {
     public javax.swing.JButton Desktop_Premios_Btn;
     public javax.swing.JButton Desktop_Salir_Btn;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    public javax.swing.JLabel sucursal;
     // End of variables declaration//GEN-END:variables
 }

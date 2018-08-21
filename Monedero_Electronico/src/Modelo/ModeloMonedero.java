@@ -446,7 +446,7 @@ public class ModeloMonedero
                     return null;
             }
     }
-    public DefaultTableModel cargos(String idC){
+    public DefaultTableModel MostrarHistorialCargos(String idC){
          try
          {
             //Abrir la conexión
@@ -458,14 +458,12 @@ public class ModeloMonedero
             
             try{
                 //Ejecuta la consulta
-                ResultSet rs = s.executeQuery("SELECT `Fecha`, cargo.Empleado_idEmpleado as 'ID Empleado', empleado.Nombre as 'Nombre Empleado', "
-                        + "empleado.Apellidos as 'Apellido Empleado', premios.Nombre as 'Premio', premios.Puntos as 'Puntos', "
-                        + "sucursal.Nombre as 'Sucursal' FROM cargo " +
-                        "INNER JOIN empleado ON empleado.idEmpleado = cargo.Empleado_idEmpleado " +
-                        "INNER JOIN inventario ON inventario.idInventario = cargo.Inventario_idInventario " +
-                        "INNER JOIN premios ON premios.idPremios = inventario.Premios_idPremios " +
-                        "INNER JOIN sucursal ON sucursal.idSucursal = inventario.Sucursal_idSucursal " +
-                        "WHERE cargo.Cliente_idCliente = " + idC);
+                ResultSet rs = s.executeQuery("SELECT cargo.Fecha, cliente.Nombre, premios.Nombre, premios.Puntos, empleado.Nombre FROM cargo "
+                        + "INNER JOIN cliente ON cliente.idCliente = cargo.Cliente_idCliente "
+                        + "INNER JOIN inventario ON inventario.idInventario = cargo.Inventario_idInventario "
+                        + "INNER JOIN premios ON premios.idPremios = inventario.Premios_idPremios "
+                        + "INNER JOIN empleado ON empleado.idEmpleado = cargo.Empleado_idEmpleado "
+                        + "WHERE cliente.idCliente = " + idC);
                 //Para establecer el modelo al JTable
                 modelo = new DefaultTableModel();
                 //Obtengo la información de las consultas que se están consultando
