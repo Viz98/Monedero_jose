@@ -394,6 +394,14 @@ public class ControladorMonedero implements ActionListener, MouseListener{
             System.out.println("Cliente id: " + cliente);
             HC.tabla_abonos.setModel(Mo.MostrarHistorialAbono(cliente));
         }
+        if(me.getSource() == HC.tabla_cargos)
+        {
+            System.out.println("Entra aqui");
+            int fila = HC.tabla_cargos.rowAtPoint(me.getPoint());
+            cliente = (HC.tabla_cargos.getValueAt(fila, 0).toString()); 
+            System.out.println("Cliente id: " + cliente);
+            HC.tabla_cargos.setModel(Mo.MostrarHistorialAbono(cliente));
+        }
         if(me.getSource() == P.IF_Premios_TablaGeneral_Table)
         {
             int f = P.IF_Premios_TablaGeneral_Table.rowAtPoint(me.getPoint());

@@ -82,13 +82,10 @@ public class IF_HistorialCliente extends javax.swing.JInternalFrame {
 
         tabla_cargos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Fecha", "Empleado", "Nombre", "Empleado", "Apellido", "Premio", "Puntos"
             }
         ));
         jScrollPane1.setViewportView(tabla_cargos);
@@ -98,7 +95,7 @@ public class IF_HistorialCliente extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Fecha", "Ticket", "Importe", "Puntos"
+                "Fecha", "Ticket", "Importe", "Puntos", "Nombre del empleado"
             }
         ));
         jScrollPane2.setViewportView(tabla_abonos);
