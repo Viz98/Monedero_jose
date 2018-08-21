@@ -117,6 +117,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         System.out.println("asdasdad");
         System.out.println("jajsdjasdj");
         System.out.println("ahora siiiii");
+        System.out.println("ahora si mejor");
         
     }
     public void iniciarVista(){
