@@ -26,11 +26,12 @@ public class ControlLogin implements ActionListener
 {
     private login vista;
     private ModeloLogin modelo;
+    private String ip;
     
-    public ControlLogin(login vista, ModeloLogin modelo){
+    public ControlLogin(login vista, ModeloLogin modelo, String ip){
         this.vista = vista;
         this.modelo = modelo;
-        
+        this.ip = ip;
         this.vista.texto_usuario.addActionListener(this);
         this.vista.texto_contraseña.addActionListener(this);
         this.vista.entrar.addActionListener(this);

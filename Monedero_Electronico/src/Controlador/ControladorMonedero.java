@@ -43,6 +43,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
     private String idInventario;
     private double temporal;
     private int puntos;
+    
     public ControladorMonedero(Desktop_Monedero M, ModeloMonedero Mo, IF_Abono A, IF_Cargo C, IF_Clientes CL, IF_HistorialCliente HC, IF_Premios P, String [] empleado)
     {
         this.M=M;
@@ -105,11 +106,6 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         this.P.IF_Table_Premios_table.addMouseListener(this);
         this.P.IF_Premios_TablaGeneral_Table.addMouseListener(this);
         this.P.IF_Premios_AgregarInventario_Btn.addActionListener(this);
-        
-        System.out.println("1");
-        System.out.println("2");
-        System.out.println("3");
-        System.out.println("4");
         
         this.C.IF_Cargo_Canjear_Btn.addActionListener(this);
         this.C.IF_Cargo_TablaClientes_Table.addMouseListener(this);
@@ -480,32 +476,23 @@ public class ControladorMonedero implements ActionListener, MouseListener{
     }
 
     @Override
-    public void mousePressed(MouseEvent me) {
+    public void mousePressed(MouseEvent me) 
+    {
     }
 
     @Override
-    public void mouseReleased(MouseEvent me) {
+    public void mouseReleased(MouseEvent me) 
+    {
+        
     }
 
     @Override
-    public void mouseExited(MouseEvent me) {
+    public void mouseExited(MouseEvent me) 
+    {
     }
 
     @Override
-    public void mouseEntered(MouseEvent me) {
+    public void mouseEntered(MouseEvent me) 
+    {
     }
-//    public boolean vaciosONoTxt(javax.swing.JTextField... args)
-//    {
-//        
-//        Pattern pattern = Pattern.compile("^[a-zA-Z0-9@.ñ _]*$");
-//        Matcher matcher;
-//        for(javax.swing.JTextField arg : args){
-//            matcher = pattern.matcher(arg.getText());
-//            if(!arg.getText().equals("") && matcher.matches())
-//                ;
-//            else
-//                return false;
-//        }
-//        return true;
-//    }
 }
