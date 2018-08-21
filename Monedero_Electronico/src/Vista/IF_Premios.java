@@ -80,7 +80,7 @@ public class IF_Premios extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "idPremio", "Nombre", "Puntos", "Sucursal"
+                "idInventario", "Nombre", "Puntos", "Sucursal"
             }
         ));
         jScrollPane1.setViewportView(IF_Table_Premios_table);

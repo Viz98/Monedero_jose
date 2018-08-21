@@ -123,6 +123,8 @@ public class IF_Abono extends javax.swing.JInternalFrame {
         Cliente.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Cliente.setText("Nombre del cliente");
 
+        texto_nombreCliente.setEditable(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(

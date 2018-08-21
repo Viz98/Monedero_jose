@@ -15,7 +15,9 @@ import Vista.IF_Cargo;
 import Vista.IF_Clientes;
 import Vista.IF_HistorialCliente;
 import Vista.IF_Premios;
+import Vista.elegirsucursal;
 import Vista.login;
+import controlador.controlelegirsucursal;
 
 /**
  *
@@ -27,12 +29,10 @@ public class Monedero {
      * @param args the command line arguments
      */
     public static void main(String[] args) 
-    {
-        login login = new login();
-        ModeloLogin modelologin = new ModeloLogin();
-        ControlLogin contrologin = new ControlLogin(login,modelologin);
-        contrologin.iniciarVista();
-        login.setLocationRelativeTo(null);
+    { 
+        elegirsucursal vistasu = new elegirsucursal();
+        controlelegirsucursal cs = new controlelegirsucursal(vistasu,0);
+        cs.iniciarVista();
     }
     
 }

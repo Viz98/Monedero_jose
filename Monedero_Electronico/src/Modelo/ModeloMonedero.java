@@ -140,7 +140,7 @@ public class ModeloMonedero
             DefaultTableModel modelo;
             try
             {
-                ResultSet rs = s.executeQuery("SELECT premios.idPremios, premios.Nombre, premios.Puntos, "
+                ResultSet rs = s.executeQuery("SELECT inventario.idInventario, premios.Nombre, premios.Puntos, "
                         + "sucursal.Nombre as 'Sucursal' FROM premios "
                         + "INNER JOIN inventario ON inventario.Premios_idPremios = premios.idPremios "
                         + "INNER JOIN sucursal on sucursal.idSucursal = inventario.Sucursal_idSucursal "
@@ -318,13 +318,26 @@ public class ModeloMonedero
 //            return false;
 //        }
 //    }
-    public boolean insertarAbonopordemientras(String fecha, int punto, Double importe, String idT, String idC, String idE){
+    public boolean insertarAbonopordemientras(String fecha, int punto, Double importe, String idT, String idC, String idE, int puntos, String idC2)
+    {
+        PreparedStatement updateTransaccion1 = null;
+        PreparedStatement updateTransaccion2 = null;
+        
+        String insertarabono = "INSERT INTO abono (Fecha, Punto, Importe, idTicket, Cliente_idCliente, Empleado_idEmpleado) VALUES('"
+                     + fecha + "', '" + punto + "', '" + importe + "', '" + idT + "', '" + idC + "', '" + idE + "');";
+        String enviarpuntos = "UPDATE cliente SET Puntos = '" + puntos +"' WHERE cliente.idCliente = '" + idC2 + "';";
+        Connection con = null;
         try{
-            Connection con = conexion.abrirConexion();
-            Statement s = con.createStatement();
-            int resultado = s.executeUpdate("INSERT INTO abono (Fecha, Punto, Importe, idTicket, Cliente_idCliente, Empleado_idEmpleado) VALUES('"
-                     + fecha + "', '" + punto + "', '" + importe + "', '" + idT + "', '" + idC + "', '" + idE + "');");
+            con = conexion.abrirConexion();
+            con.setAutoCommit(false);
+            updateTransaccion1 = con.prepareStatement(insertarabono);
+            updateTransaccion2 = con.prepareStatement(enviarpuntos);
+            int r1=updateTransaccion1.executeUpdate(); 
+            int r2=updateTransaccion2.executeUpdate(); 
+            if(r1 == 0 || r2 ==0)
+                throw new SQLException("La cuenta no existe");
             
+            con.commit();
             conexion.cerrarConexion(con);
             return true;
         }
@@ -525,4 +538,20 @@ public class ModeloMonedero
              return false;
          }
      }
+    public boolean descontinuarproducto(String idI)
+    {
+       try
+        {
+            Connection con = conexion.abrirConexion();
+            Statement s = con.createStatement();
+            int resultado = s.executeUpdate("delete from inventario where idInventario = '" + idI + "';");
+            conexion.cerrarConexion(con);
+            return true;
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
 }
