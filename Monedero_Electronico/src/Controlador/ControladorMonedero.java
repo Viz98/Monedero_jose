@@ -111,6 +111,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
         this.C.IF_Cargo_Inventario_Table.addMouseListener(this);
         System.out.println("asdasdad");
         System.out.println("jajsdjasdj");
+        System.out.println("ahora siiiii");
         
     }
     public void iniciarVista(){
