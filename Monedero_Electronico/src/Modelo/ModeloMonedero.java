@@ -301,7 +301,24 @@ public class ModeloMonedero
             return false;
         }
     }
-    public boolean insertarAbono(String fecha, int punto, Double importe, String idT, String idC, String idE){
+//    public boolean insertarAbono(String fecha, int punto, Double importe, String idT, String idC, String idE){
+//        try{
+//            Connection con = conexion.abrirConexion();
+//            Statement s = con.createStatement();
+//            int resultado = s.executeUpdate("INSERT INTO abono (Fecha, Punto, Importe, idTicket, Cliente_idCliente, Empleado_idEmpleado) VALUES('"
+//                     + fecha + "', '" + punto + "', '" + importe + "', '" + idT + "', '" + idC + "', '" + idE + "');");
+//            
+//            conexion.cerrarConexion(con);
+//            return true;
+//        }
+//        catch(SQLException e)
+//        {
+//            //System.out.println(e.getMessage());
+//            JOptionPane.showMessageDialog(null, "Ya se uso este ticket.");
+//            return false;
+//        }
+//    }
+    public boolean insertarAbonopordemientras(String fecha, int punto, Double importe, String idT, String idC, String idE){
         try{
             Connection con = conexion.abrirConexion();
             Statement s = con.createStatement();

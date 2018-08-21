@@ -255,7 +255,7 @@ public class ControladorMonedero implements ActionListener, MouseListener{
                     System.out.println("Los puntos son: " + punto);
                     System.out.println("El id del cliente es: " + cliente);
                     System.out.println("El id del empleado es: " + empleado[0]);
-                    if(Mo.insertarAbono(date, punto, Double.parseDouble(A.texto_importe.getText()), A.texto_ticket.getText(), cliente, empleado[0]))
+                    //if(Mo.insertarAbono(date, punto, Double.parseDouble(A.texto_importe.getText()), A.texto_ticket.getText(), cliente, empleado[0]))
                     {
                         JOptionPane.showMessageDialog(null, "Resgistro insertado exitosamente");
                         int valor = Integer.parseInt(Mo.ObtenerPuntosClientes(cliente));
